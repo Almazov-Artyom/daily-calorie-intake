@@ -21,13 +21,13 @@ public class RegistrationRequest {
     private Integer age;
 
     @NotNull(message = "Вес не может быть пустым")
-    @Min(value = 10, message = "Вес должен быть не менее 10 кг")
-    @Max(value = 400, message = "Вес не может быть больше 400 кг")
+    @DecimalMin(value = "10.0", message = "Вес должен быть не менее 10 кг")
+    @DecimalMax(value = "400.0", message = "Вес не может быть больше 400 кг")
     private Double weight;
 
     @NotNull(message = "Рост не может быть пустым")
-    @Min(value = 60, message = "Рост должен быть не менее 60 см")
-    @Max(value = 250, message = "Рост не может быть больше 250 см")
+    @DecimalMin(value = "60.0", message = "Рост должен быть не менее 60 см")
+    @DecimalMax(value = "250.0", message = "Рост не может быть больше 250 см")
     private Double height;
 
     @NotBlank(message = "Цель не может быть пустой")
