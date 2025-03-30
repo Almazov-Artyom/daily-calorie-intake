@@ -31,7 +31,7 @@ public class UserService {
             dailyNorm = 88.36 + (13.4 * user.getWeight()) + (4.8 * user.getHeight()) - (5.7 * user.getAge());
         else
             dailyNorm = 447.6 + (9.2 * user.getWeight()) + (3.1 * user.getHeight()) - (4.3 * user.getAge());
-
+        dailyNorm = Math.round(dailyNorm * 100.0) / 100.0;
         user.setDailyNorm(dailyNorm);
     }
 
@@ -57,10 +57,8 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
     }
 
-    @Transactional(readOnly = true)
     public User getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return getUserByUsername(username);
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public UserDetailsService userDetailsService() {

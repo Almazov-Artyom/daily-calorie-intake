@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.almaz.dailycalorieintake.exception.InvalidTokenException;
+import ru.almaz.dailycalorieintake.exception.UserNotFoundException;
 import ru.almaz.dailycalorieintake.service.JwtService;
 import ru.almaz.dailycalorieintake.service.UserService;
 
@@ -53,8 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     throw new InvalidTokenException("Invalid token");
             }
             filterChain.doFilter(request, response);
-        }
-        catch (InvalidTokenException e) {
+        } catch (InvalidTokenException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             String json = String.format("{\"status\": 401, \"error\": \"Unauthorized\", \"message\": \"%s\"}", e.getMessage());

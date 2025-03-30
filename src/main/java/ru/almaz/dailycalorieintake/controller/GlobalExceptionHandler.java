@@ -18,7 +18,8 @@ public class GlobalExceptionHandler {
             UsernameNotFoundException.class,
             InvalidPurposeException.class,
             InvalidGenderException.class,
-            DishAlreadyExist.class
+            DishAlreadyExist.class,
+            DishNotFoundException.class
     })
     public ProblemDetail handleUserAlreadyExistException(RuntimeException e) {
         ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,e.getMessage());
