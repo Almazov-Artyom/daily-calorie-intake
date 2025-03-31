@@ -6,6 +6,7 @@ import org.mapstruct.MappingConstants;
 import ru.almaz.dailycalorieintake.dto.AddDishRequest;
 import ru.almaz.dailycalorieintake.dto.DailyReportResponse;
 import ru.almaz.dailycalorieintake.dto.DishInfo;
+import ru.almaz.dailycalorieintake.dto.HistoryFoodIntake;
 import ru.almaz.dailycalorieintake.entity.Dish;
 import ru.almaz.dailycalorieintake.entity.UserDish;
 
@@ -23,4 +24,7 @@ public interface DishMapper {
     DailyReportResponse.DishInfoForDailyReport toDishInfoForDailyReport(Dish dish);
 
     List<DailyReportResponse.DishInfoForDailyReport>  toDishInfoForDailyReport(List<Dish> dish);
+
+    @Mapping(source = "name", target = "dishName")
+    HistoryFoodIntake.DishInfoForHistoryFoodIntake toDishInfoForHistoryFoodIntake(Dish dish);
 }

@@ -3,10 +3,7 @@ package ru.almaz.dailycalorieintake.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.almaz.dailycalorieintake.dto.AddFoodIntakeRequest;
-import ru.almaz.dailycalorieintake.dto.CheckDailyNorm;
-import ru.almaz.dailycalorieintake.dto.DailyReportRequest;
-import ru.almaz.dailycalorieintake.dto.DailyReportResponse;
+import ru.almaz.dailycalorieintake.dto.*;
 import ru.almaz.dailycalorieintake.entity.UserDish;
 import ru.almaz.dailycalorieintake.service.UserDishService;
 
@@ -38,6 +35,11 @@ public class UserDishController {
             request = new DailyReportRequest();
         }
         return userDishService.checkDailyNorm(request);
+    }
+
+    @GetMapping("/history-food-intake")
+    public HistoryFoodIntake getHistoryFoodIntake() {
+        return userDishService.getHistoryFoodIntake();
     }
 
 }

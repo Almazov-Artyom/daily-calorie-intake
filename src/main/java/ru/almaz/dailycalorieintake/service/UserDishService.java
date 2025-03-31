@@ -3,10 +3,7 @@ package ru.almaz.dailycalorieintake.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.almaz.dailycalorieintake.dto.AddFoodIntakeRequest;
-import ru.almaz.dailycalorieintake.dto.CheckDailyNorm;
-import ru.almaz.dailycalorieintake.dto.DailyReportRequest;
-import ru.almaz.dailycalorieintake.dto.DailyReportResponse;
+import ru.almaz.dailycalorieintake.dto.*;
 import ru.almaz.dailycalorieintake.entity.Dish;
 import ru.almaz.dailycalorieintake.entity.User;
 import ru.almaz.dailycalorieintake.entity.UserDish;
@@ -80,31 +77,32 @@ public class UserDishService {
     public DailyReportResponse getDailyReport(DailyReportRequest request) {
         User user = userService.getCurrentUser();
 
-        List<Dish> dishes = getDishesFromUserDishes(request,user);
+        List<Dish> dishes = getDishesFromUserDishes(request, user);
 
         Double sumCalories = getSumCalories(dishes);
+
         return DailyReportResponse.builder()
                 .sumAllCalories(sumCalories)
                 .dishes(dishMapper.toDishInfoForDailyReport(dishes))
+                .date(request.getDate() != null ? request.getDate() : LocalDate.now())
                 .build();
     }
 
     public CheckDailyNorm checkDailyNorm(DailyReportRequest request) {
         User user = userService.getCurrentUser();
 
-        List<Dish> dishes = getDishesFromUserDishes(request,user);
+        List<Dish> dishes = getDishesFromUserDishes(request, user);
 
         Double sumCalories = getSumCalories(dishes);
 
         Double dailyNorm = user.getDailyNorm();
 
-       String message = "";
+        String message = "";
 
-        if(sumCalories<=dailyNorm){
+        if (sumCalories <= dailyNorm) {
             message = "Вы уложились в дневную норму";
-        }
-        else
-            message="Вы не уложились в дневную норму";
+        } else
+            message = "Вы не уложились в дневную норму";
 
         return CheckDailyNorm.builder()
                 .message(message)
@@ -112,5 +110,25 @@ public class UserDishService {
                 .caloriesPerDay(sumCalories)
                 .build();
     }
-    
+
+    public HistoryFoodIntake getHistoryFoodIntake() {
+        User user = userService.getCurrentUser();
+
+        List<UserDish> userDishes = userDishRepository.findByUser(user);
+
+        Map<LocalDate, List<HistoryFoodIntake.DishInfoForHistoryFoodIntake>> dateAndDishes = userDishes.stream()
+                .collect(Collectors.groupingBy(
+                                UserDish::getDate,
+                                Collectors.mapping(
+                                        userDish -> dishMapper.toDishInfoForHistoryFoodIntake(userDish.getDish()),
+                                        Collectors.toList()
+                                )
+                        )
+                );
+
+        return HistoryFoodIntake.builder()
+                .dateAndDishes(dateAndDishes)
+                .build();
+    }
+
 }
