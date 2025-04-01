@@ -15,6 +15,7 @@ import ru.almaz.dailycalorieintake.dto.*;
 import ru.almaz.dailycalorieintake.entity.User;
 import ru.almaz.dailycalorieintake.exception.InvalidGenderException;
 import ru.almaz.dailycalorieintake.exception.InvalidPurposeException;
+import ru.almaz.dailycalorieintake.exception.InvalidRefreshTokenException;
 import ru.almaz.dailycalorieintake.exception.UserUnauthenticatedException;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.repository.UserRepository;
@@ -115,4 +116,40 @@ class AuthServiceTest {
 
         assertThrows(UserUnauthenticatedException.class, () -> authService.login(loginRequest));
     }
+
+    @Test
+    public void refreshToken_refreshTokenValid(){
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
+        refreshTokenRequest.setRefreshToken("validRefreshToken");
+
+        User user = new User();
+
+        when(jwtService.extractUserName(refreshTokenRequest.getRefreshToken())).thenReturn("testUsername");
+        when(userService.getUserByUsername("testUsername")).thenReturn(user);
+        when(jwtService.isTokenValid(refreshTokenRequest.getRefreshToken())).thenReturn(true);
+        when(jwtService.generateAccessToken(user)).thenReturn("accessToken");
+
+        RefreshTokenResponse response = authService.refreshToken(refreshTokenRequest);
+
+        assertEquals("accessToken", response.getAccessToken());
+        assertEquals("validRefreshToken", response.getRefreshToken());
+    }
+
+    @Test
+    public void refreshToken_refreshTokenInvalid(){
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
+        refreshTokenRequest.setRefreshToken("invalidRefreshToken");
+
+        User user = new User();
+
+        when(jwtService.extractUserName(refreshTokenRequest.getRefreshToken())).thenReturn("testUsername");
+        when(userService.getUserByUsername("testUsername")).thenReturn(user);
+        when(jwtService.isTokenValid(refreshTokenRequest.getRefreshToken())).thenReturn(false);
+
+        assertThrows(InvalidRefreshTokenException.class,()->authService.refreshToken(refreshTokenRequest));
+    }
+
+
+
+
 }
