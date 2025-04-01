@@ -80,7 +80,7 @@ public class AuthService {
         else{
             throw new InvalidRefreshTokenException("Invalid refresh token");
         }
-        
+
         return RefreshTokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

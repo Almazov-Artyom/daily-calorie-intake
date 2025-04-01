@@ -11,10 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.almaz.dailycalorieintake.dto.LoginRequest;
-import ru.almaz.dailycalorieintake.dto.LoginResponse;
-import ru.almaz.dailycalorieintake.dto.RegistrationRequest;
-import ru.almaz.dailycalorieintake.dto.RegistrationResponse;
+import ru.almaz.dailycalorieintake.dto.*;
 import ru.almaz.dailycalorieintake.entity.User;
 import ru.almaz.dailycalorieintake.exception.InvalidGenderException;
 import ru.almaz.dailycalorieintake.exception.InvalidPurposeException;
@@ -118,8 +115,4 @@ class AuthServiceTest {
 
         assertThrows(UserUnauthenticatedException.class, () -> authService.login(loginRequest));
     }
-
-
-
-
 }

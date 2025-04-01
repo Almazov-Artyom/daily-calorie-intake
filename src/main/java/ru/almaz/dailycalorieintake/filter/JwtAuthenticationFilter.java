@@ -45,15 +45,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(BEARER_PREFIX.length());
         try {
             String userName = jwtService.extractUserName(token);
-            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (jwtService.isTokenValid(token)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userName, null, Collections.emptyList()
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else
-                    throw new InvalidTokenException("Invalid token");
-            }
+            if (jwtService.isTokenValid(token)) {
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userName, null, Collections.emptyList()
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else
+                throw new InvalidTokenException("Invalid token");
+
             filterChain.doFilter(request, response);
         } catch (InvalidTokenException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
