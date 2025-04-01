@@ -29,8 +29,11 @@ public class DishService {
         dishRepository.save(dish);
     }
 
+    @Transactional(readOnly = true)
     public List<DishInfo> getAllDishes() {
-        return dishRepository.findAll().stream().map(dishMapper::toDishInfo).collect(Collectors.toList());
+        return dishRepository.findAll().stream()
+                .map(dishMapper::toDishInfo)
+                .collect(Collectors.toList());
     }
 
 }
