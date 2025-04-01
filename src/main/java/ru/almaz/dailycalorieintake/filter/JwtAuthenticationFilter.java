@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import ru.almaz.dailycalorieintake.service.JwtService;
 import ru.almaz.dailycalorieintake.service.UserService;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 @Component
@@ -44,10 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String userName = jwtService.extractUserName(token);
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userService.getUserByUsername(userName);
-                if (jwtService.isTokenValid(token, userDetails)) {
+                if (jwtService.isTokenValid(token)) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities()
+                            userName, null, Collections.emptyList()
                     );
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else

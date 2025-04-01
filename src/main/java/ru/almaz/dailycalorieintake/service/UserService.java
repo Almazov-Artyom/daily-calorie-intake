@@ -57,8 +57,10 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
     }
 
+    @Transactional(readOnly = true)
     public User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return getUserByUsername(username);
     }
 
     public UserDetailsService userDetailsService() {

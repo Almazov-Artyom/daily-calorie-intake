@@ -74,13 +74,13 @@ public class AuthService {
 
         UserDetails userDetails = userService.getUserByUsername(userName);
         String accessToken;
-        if(jwtService.isTokenValid(refreshToken, userDetails)) {
+        if(jwtService.isTokenValid(refreshToken)) {
             accessToken = jwtService.generateAccessToken(userDetails);
         }
         else{
             throw new InvalidRefreshTokenException("Invalid refresh token");
         }
-
+        
         return RefreshTokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

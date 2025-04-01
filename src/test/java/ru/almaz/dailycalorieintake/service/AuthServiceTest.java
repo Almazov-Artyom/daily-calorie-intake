@@ -6,12 +6,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.almaz.dailycalorieintake.dto.LoginRequest;
+import ru.almaz.dailycalorieintake.dto.LoginResponse;
 import ru.almaz.dailycalorieintake.dto.RegistrationRequest;
 import ru.almaz.dailycalorieintake.dto.RegistrationResponse;
 import ru.almaz.dailycalorieintake.entity.User;
 import ru.almaz.dailycalorieintake.exception.InvalidGenderException;
 import ru.almaz.dailycalorieintake.exception.InvalidPurposeException;
+import ru.almaz.dailycalorieintake.exception.UserUnauthenticatedException;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.repository.UserRepository;
 
@@ -78,6 +85,39 @@ class AuthServiceTest {
         assertThrows(InvalidGenderException.class,() -> authService.registration(registrationRequest));
     }
 
+    @Test
+    public void login_success() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("testUsername");
+        loginRequest.setPassword("testPassword");
+
+        Authentication authentication = mock(Authentication.class);
+        User user = new User();
+        user.setUsername("testUser");
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(user);
+        when(jwtService.generateAccessToken(user)).thenReturn("accessToken");
+        when(jwtService.generateRefreshToken(user)).thenReturn("refreshToken");
+
+
+        LoginResponse response = authService.login(loginRequest);
+
+        assertEquals("accessToken", response.getAccessToken());
+        assertEquals("refreshToken", response.getRefreshToken());
+    }
+
+    @Test
+    public void login_invalid() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("invalidUsername");
+        loginRequest.setPassword("testPassword");
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenThrow(BadCredentialsException.class);
+
+        assertThrows(UserUnauthenticatedException.class, () -> authService.login(loginRequest));
+    }
 
 
 
