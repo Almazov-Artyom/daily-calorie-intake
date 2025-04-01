@@ -2,9 +2,11 @@ package ru.almaz.dailycalorieintake.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,7 @@ import ru.almaz.dailycalorieintake.repository.UserRepository;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
     @Mock
     private UserService userService;
@@ -42,13 +45,8 @@ class AuthServiceTest {
     @InjectMocks
     private AuthService authService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void registration_success() {
+    void registration_success() {
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setPurpose("loss");
         registrationRequest.setGender("male");
@@ -67,7 +65,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void registration_invalidPurpose() {
+    void registration_invalidPurpose() {
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setPurpose("invalidPurpose");
 
@@ -75,7 +73,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void registration_invalidGender() {
+    void registration_invalidGender() {
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setPurpose("loss");
         registrationRequest.setGender("invalidGender");
@@ -84,7 +82,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void login_success() {
+    void login_success() {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("testUsername");
         loginRequest.setPassword("testPassword");
@@ -106,7 +104,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void login_invalid() {
+    void login_invalid() {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("invalidUsername");
         loginRequest.setPassword("testPassword");
@@ -118,7 +116,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void refreshToken_refreshTokenValid(){
+    void refreshToken_refreshTokenValid(){
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
         refreshTokenRequest.setRefreshToken("validRefreshToken");
 
@@ -136,7 +134,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void refreshToken_refreshTokenInvalid(){
+    void refreshToken_refreshTokenInvalid(){
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
         refreshTokenRequest.setRefreshToken("invalidRefreshToken");
 
@@ -148,8 +146,4 @@ class AuthServiceTest {
 
         assertThrows(InvalidRefreshTokenException.class,()->authService.refreshToken(refreshTokenRequest));
     }
-
-
-
-
 }

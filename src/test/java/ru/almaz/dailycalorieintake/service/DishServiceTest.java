@@ -2,9 +2,11 @@ package ru.almaz.dailycalorieintake.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.almaz.dailycalorieintake.dto.AddDishRequest;
 import ru.almaz.dailycalorieintake.dto.DishInfo;
 import ru.almaz.dailycalorieintake.entity.Dish;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class DishServiceTest {
     @Mock
     private DishRepository dishRepository;
@@ -29,13 +32,8 @@ class DishServiceTest {
     @InjectMocks
     private DishService dishService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void addDish_success() {
+    void addDish_success() {
         AddDishRequest addDishRequest = new AddDishRequest();
         addDishRequest.setName("pasta");
 
@@ -50,7 +48,7 @@ class DishServiceTest {
     }
 
     @Test
-    public void addDish_fail() {
+    void addDish_fail() {
         AddDishRequest addDishRequest = new AddDishRequest();
         addDishRequest.setName("pasta");
 
@@ -60,7 +58,7 @@ class DishServiceTest {
     }
 
     @Test
-    public void getAllDish(){
+    void getAllDish(){
         Dish dish = new Dish();
         dish.setName("pasta");
 

@@ -1,6 +1,6 @@
 package ru.almaz.dailycalorieintake.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.almaz.dailycalorieintake.dto.*;
@@ -29,7 +29,14 @@ public class UserDishService {
 
     private final DishMapper dishMapper;
 
-    private List<Dish> getDishesFromUserDishes(DailyReportRequest request, User user) {
+    Double getSumCalories(List<Dish> dishes) {
+        return dishes.stream()
+                .map(Dish::getCalories)
+                .reduce(0.0, Double::sum);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Dish> getDishesFromUserDishes(DailyReportRequest request, User user) {
 
         List<UserDish> userDishes = userDishRepository.findByUserAndDate(user,
                 request.getDate() != null ? request.getDate() : LocalDate.now());
@@ -37,12 +44,6 @@ public class UserDishService {
         return userDishes.stream()
                 .map(UserDish::getDish)
                 .toList();
-    }
-
-    private Double getSumCalories(List<Dish> dishes) {
-        return dishes.stream()
-                .map(Dish::getCalories)
-                .reduce(0.0, Double::sum);
     }
 
     @Transactional
@@ -74,6 +75,7 @@ public class UserDishService {
         userDishRepository.saveAll(userDishes);
     }
 
+    @Transactional(readOnly = true)
     public DailyReportResponse getDailyReport(DailyReportRequest request) {
         User user = userService.getCurrentUser();
 
@@ -88,6 +90,7 @@ public class UserDishService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public CheckDailyNorm checkDailyNorm(DailyReportRequest request) {
         User user = userService.getCurrentUser();
 
@@ -111,6 +114,7 @@ public class UserDishService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public HistoryFoodIntake getHistoryFoodIntake() {
         User user = userService.getCurrentUser();
 
