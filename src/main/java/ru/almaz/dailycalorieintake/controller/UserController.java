@@ -32,5 +32,4 @@ public class UserController {
     public UserInfo updateEmail(@RequestBody @Valid UpdateAgeRequest request) {
         return userService.updateAge(request);
     }
-
 }

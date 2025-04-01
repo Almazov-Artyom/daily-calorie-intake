@@ -7,19 +7,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.almaz.dailycalorieintake.exception.InvalidTokenException;
-import ru.almaz.dailycalorieintake.exception.UserNotFoundException;
 import ru.almaz.dailycalorieintake.service.JwtService;
 import ru.almaz.dailycalorieintake.service.UserService;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -51,12 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else
-                throw new InvalidTokenException("Invalid token");
+                throw new InvalidTokenException("Невалидный токен");
 
             filterChain.doFilter(request, response);
         } catch (InvalidTokenException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             String json = String.format("{\"status\": 401, \"error\": \"Unauthorized\", \"message\": \"%s\"}", e.getMessage());
             response.getWriter().write(json);
         }

@@ -22,8 +22,7 @@ public class GlobalExceptionHandler {
             DishNotFoundException.class
     })
     public ProblemDetail handleUserAlreadyExistException(RuntimeException e) {
-        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,e.getMessage());
-        return response;
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler({
@@ -32,14 +31,12 @@ public class GlobalExceptionHandler {
             InvalidRefreshTokenException.class
     })
     public ProblemDetail handleUserUnauthenticatedException(RuntimeException e) {
-        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED,e.getMessage());
-        return response;
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ProblemDetail handleAccessDeniedException(AccessDeniedException e) {
-        ProblemDetail response = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN,e.getMessage());
-        return response;
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

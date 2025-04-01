@@ -1,10 +1,6 @@
 package ru.almaz.dailycalorieintake.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
-import ru.almaz.dailycalorieintake.enums.Gender;
-import ru.almaz.dailycalorieintake.enums.Purpose;
 
 @Data
 public class UserInfo {

@@ -18,11 +18,11 @@ public class UserDish {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="id_user")
+    @JoinColumn(name = "id_user")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="id_dish")
+    @JoinColumn(name = "id_dish")
     private Dish dish;
 
     private LocalDate date;

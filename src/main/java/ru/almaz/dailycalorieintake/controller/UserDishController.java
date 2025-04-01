@@ -4,11 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.almaz.dailycalorieintake.dto.*;
-import ru.almaz.dailycalorieintake.entity.UserDish;
 import ru.almaz.dailycalorieintake.service.UserDishService;
-
-import java.time.LocalDate;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +18,8 @@ public class UserDishController {
     }
 
     @GetMapping("/daily-report")
-    public DailyReportResponse dailyReport(@RequestBody(required = false) DailyReportRequest request){
-        if(request == null){
+    public DailyReportResponse dailyReport(@RequestBody(required = false) DailyReportRequest request) {
+        if (request == null) {
             request = new DailyReportRequest();
         }
         return userDishService.getDailyReport(request);
@@ -31,7 +27,7 @@ public class UserDishController {
 
     @GetMapping("/check-daily-norm")
     public CheckDailyNorm checkDailyNorm(@RequestBody(required = false) DailyReportRequest request) {
-        if(request == null){
+        if (request == null) {
             request = new DailyReportRequest();
         }
         return userDishService.checkDailyNorm(request);
@@ -41,5 +37,4 @@ public class UserDishController {
     public HistoryFoodIntake getHistoryFoodIntake() {
         return userDishService.getHistoryFoodIntake();
     }
-
 }

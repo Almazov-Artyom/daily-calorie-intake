@@ -16,8 +16,8 @@ public class RegistrationRequest {
     private String email;
 
     @NotNull(message = "Возраст не может быть пустым")
-    @Min(value=18, message = "Возраст должен быть не менее 18 лет")
-    @Max(value=65, message = "Возраст не должен быть более 65 лет")
+    @Min(value = 18, message = "Возраст должен быть не менее 18 лет")
+    @Max(value = 65, message = "Возраст не должен быть более 65 лет")
     private Integer age;
 
     @NotNull(message = "Вес не может быть пустым")

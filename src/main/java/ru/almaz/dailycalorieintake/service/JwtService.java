@@ -37,9 +37,7 @@ public class JwtService {
     private String generateToken(UserDetails userDetails, Duration lifetime) {
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof User customUserDetails) {
-            claims.put("id", customUserDetails.getId());
             claims.put("username", customUserDetails.getUsername());
-            claims.put("email", customUserDetails.getEmail());
         }
         return Jwts.builder()
                 .claims(claims)
@@ -63,7 +61,7 @@ public class JwtService {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-            throw new InvalidTokenException("Invalid token");
+            throw new InvalidTokenException("Невалидный токен");
         }
     }
 

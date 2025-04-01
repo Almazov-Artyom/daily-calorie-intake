@@ -8,11 +8,8 @@ import ru.almaz.dailycalorieintake.dto.DailyReportResponse;
 import ru.almaz.dailycalorieintake.dto.DishInfo;
 import ru.almaz.dailycalorieintake.dto.HistoryFoodIntake;
 import ru.almaz.dailycalorieintake.entity.Dish;
-import ru.almaz.dailycalorieintake.entity.UserDish;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface DishMapper {
@@ -23,7 +20,7 @@ public interface DishMapper {
     @Mapping(source = "name", target = "dishName")
     DailyReportResponse.DishInfoForDailyReport toDishInfoForDailyReport(Dish dish);
 
-    List<DailyReportResponse.DishInfoForDailyReport>  toDishInfoForDailyReport(List<Dish> dish);
+    List<DailyReportResponse.DishInfoForDailyReport> toDishInfoForDailyReport(List<Dish> dish);
 
     @Mapping(source = "name", target = "dishName")
     HistoryFoodIntake.DishInfoForHistoryFoodIntake toDishInfoForHistoryFoodIntake(Dish dish);

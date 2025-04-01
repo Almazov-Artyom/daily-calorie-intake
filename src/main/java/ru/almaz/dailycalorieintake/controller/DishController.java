@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.almaz.dailycalorieintake.dto.AddDishRequest;
 import ru.almaz.dailycalorieintake.dto.DishInfo;
-import ru.almaz.dailycalorieintake.entity.Dish;
 import ru.almaz.dailycalorieintake.service.DishService;
 
 import java.util.List;

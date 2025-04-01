@@ -28,19 +28,17 @@ public class AuthService {
 
     private final UserMapper userMapper;
 
-    public RegistrationResponse registration(RegistrationRequest registrationRequest)  {
-        try{
+    public RegistrationResponse registration(RegistrationRequest registrationRequest) {
+        try {
             Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
             registrationRequest.setPurpose(registrationRequest.getPurpose().toUpperCase());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new InvalidPurposeException("Неправильное значение цели");
         }
-        try{
+        try {
             Gender.valueOf(registrationRequest.getGender().toUpperCase());
             registrationRequest.setGender(registrationRequest.getGender().toUpperCase());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new InvalidGenderException("Неправильное значение пола");
         }
 
@@ -62,9 +60,8 @@ public class AuthService {
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = jwtService.generateRefreshToken(user);
             return new LoginResponse(accessToken, refreshToken);
-        }
-        catch (AuthenticationException ex){
-            throw new UserUnauthenticatedException("User unauthenticated");
+        } catch (AuthenticationException ex) {
+            throw new UserUnauthenticatedException("Пользователь не аутентифицирован");
         }
     }
 
@@ -74,11 +71,10 @@ public class AuthService {
 
         UserDetails userDetails = userService.getUserByUsername(userName);
         String accessToken;
-        if(jwtService.isTokenValid(refreshToken)) {
+        if (jwtService.isTokenValid(refreshToken)) {
             accessToken = jwtService.generateAccessToken(userDetails);
-        }
-        else{
-            throw new InvalidRefreshTokenException("Invalid refresh token");
+        } else {
+            throw new InvalidRefreshTokenException("Невалидный refresh токен");
         }
 
         return RefreshTokenResponse.builder()
