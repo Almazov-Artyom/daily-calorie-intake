@@ -35,12 +35,13 @@ public class UserService {
         user.setDailyNorm(dailyNorm);
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
+    @Transactional
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     @Transactional
-    public User createUser(User user) {
+    public void createUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistException("Пользователь с таким именем уже существует");
         }
@@ -48,7 +49,7 @@ public class UserService {
             throw new UserAlreadyExistException("Пользователь с таким email уже существует");
         }
         formulaHarisBenedict(user);
-        return save(user);
+        save(user);
     }
 
     @Transactional(readOnly = true)
