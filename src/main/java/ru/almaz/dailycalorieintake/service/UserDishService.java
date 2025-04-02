@@ -113,6 +113,7 @@ public class UserDishService {
             message = "Вы не уложились в дневную норму";
 
         return CheckDailyNorm.builder()
+                .date(request.getDate() != null ? request.getDate() : LocalDate.now())
                 .message(message)
                 .dailyNorm(dailyNorm)
                 .caloriesPerDay(sumCalories)
