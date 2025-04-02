@@ -1,0 +1,868 @@
+{
+	"info": {
+		"_postman_id": "a52c396a-95bd-44bc-862f-cb5e11f86d6a",
+		"name": "DailyCalorieIntake",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40079656"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "success register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"password\",\n    \"email\":\"user@gmail.com\",\n    \"age\":20,\n    \"weight\":80,\n    \"height\":180,\n    \"purpose\":\"maintenance\",\n    \"gender\":\"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad register (not required fields))",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"password\",\n    \"email\":\"user@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad register (invalid fields)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"password\",\n    \"email\":\"user@gmail.com\",\n    \"age\":10,\n    \"weight\":5,\n    \"height\":50,\n    \"purpose\":\"maintenance\",\n    \"gender\":\"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad register (user already exist)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"password\",\n    \"email\":\"user@gmail.com\",\n    \"age\":20,\n    \"weight\":80,\n    \"height\":180,\n    \"purpose\":\"maintenance\",\n    \"gender\":\"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "success login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"invalid_user\",\n    \"password\":\"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\":\"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkyNTEyLCJleHAiOjE3NDM2Nzg5MTJ9.tFp73Oudb6fbO0BC8OlYpLXjYcQwsFvku0DyphetWlE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auth/refresh",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dish",
+			"item": [
+				{
+					"name": "add pizza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkyNTEyLCJleHAiOjE3NDM1OTMxMTJ9.2u4Oi0R6Ihaj41tnMX9wGmXHxivzLLzbBhmq--lsyZQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"пицца\",\n    \"calories\":300,\n    \"protein\":10,\n    \"fats\":12,\n    \"carbs\":30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/dish/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dish",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add pasta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkyNTEyLCJleHAiOjE3NDM1OTMxMTJ9.2u4Oi0R6Ihaj41tnMX9wGmXHxivzLLzbBhmq--lsyZQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"паста\",\n    \"calories\":160,\n    \"protein\":7,\n    \"fats\":5,\n    \"carbs\":30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/dish/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dish",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add humburger",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkyNTEyLCJleHAiOjE3NDM1OTMxMTJ9.2u4Oi0R6Ihaj41tnMX9wGmXHxivzLLzbBhmq--lsyZQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"гамбургер\",\n    \"calories\":400,\n    \"protein\":14,\n    \"fats\":11,\n    \"carbs\":26\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/dish/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dish",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add already exist dish",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkzMTU5LCJleHAiOjE3NDM1OTM3NTl9.L427P2YWeQEQtbOqVc_cHPp3Hwn618hR-dFZEoNmDuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"пицца\",\n    \"calories\":300,\n    \"protein\":10,\n    \"fats\":12,\n    \"carbs\":30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/dish/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dish",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get dishes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkyNTEyLCJleHAiOjE3NDM1OTMxMTJ9.2u4Oi0R6Ihaj41tnMX9wGmXHxivzLLzbBhmq--lsyZQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/dish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"dish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "update height",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkzMTU5LCJleHAiOjE3NDM1OTM3NTl9.L427P2YWeQEQtbOqVc_cHPp3Hwn618hR-dFZEoNmDuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"height\":170\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/update-height",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"update-height"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update weight",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkzMTU5LCJleHAiOjE3NDM1OTM3NTl9.L427P2YWeQEQtbOqVc_cHPp3Hwn618hR-dFZEoNmDuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"weight\":75\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/update-weight",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"update-weight"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update age",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkzMTU5LCJleHAiOjE3NDM1OTM3NTl9.L427P2YWeQEQtbOqVc_cHPp3Hwn618hR-dFZEoNmDuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"age\":21\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/update-age",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"update-age"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bad update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTkzMTU5LCJleHAiOjE3NDM1OTM3NTl9.L427P2YWeQEQtbOqVc_cHPp3Hwn618hR-dFZEoNmDuU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"height\":10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user/update-height",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"update-height"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user_dish",
+			"item": [
+				{
+					"name": "add food intake (include date)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2NTk2LCJleHAiOjE3NDM2MDI1OTZ9.4cmFtyYbOEm_rw_OFXm4SUr3oTh4Lq5xQtvQ2rDFNg8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dishesId\":[1,2,3,2,3,2],\n    \"date\":\"2025-03-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-dish/add-food-intake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"add-food-intake"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add food intake (exclude date)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2NTk2LCJleHAiOjE3NDM2MDI1OTZ9.4cmFtyYbOEm_rw_OFXm4SUr3oTh4Lq5xQtvQ2rDFNg8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dishesId\":[2,2,2,3]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-dish/add-food-intake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"add-food-intake"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add food intake (not found dish)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dishesId\":[1,2,5],\n    \"date\":\"2025-03-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-dish/add-food-intake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"add-food-intake"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get daily report (exclude date)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-dish/daily-report",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"daily-report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get daily report (include date)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\":\"2025-03-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-dish/daily-report",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"daily-report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check daily norm (exclude date)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-dish/check-daily-norm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"check-daily-norm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check daily norm (include date)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\":\"2025-03-30\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/user-dish/check-daily-norm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"check-daily-norm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get history food intake",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQzNTk2ODQ5LCJleHAiOjE3NDM2MDI4NDl9.Scfyz6urYHQPnHWfgy0x3YBKACo_3-0z6N4wztrC6To",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/user-dish/history-food-intake",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user-dish",
+								"history-food-intake"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
