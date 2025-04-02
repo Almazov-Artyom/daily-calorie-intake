@@ -59,6 +59,6 @@
 
 ---
 
-##Postman Collection
+## Postman Collection
 
 Для удобства тестирования API есть **Postman Collection**.  
