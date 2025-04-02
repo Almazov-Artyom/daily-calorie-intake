@@ -8,7 +8,7 @@
 
 1. **Склонируйте репозиторий**  
    ```sh
-   git clone https://github.com/your-repo/daily-calorie-intake.git
+   git clone https://github.com/Almazov-Artyom/daily-calorie-intake.git
    ```
 
 2. **Запустите сервис с помощью Docker Compose**  
