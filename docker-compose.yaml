@@ -1,0 +1,21 @@
+services:
+  app:
+    container_name: daily-calorie-intake
+    build: .
+    ports:
+      - ${SPRING_APP_PORT}:${SPRING_APP_PORT}
+    env_file:
+      - .env
+
+  db:
+    image: postgres:latest
+    container_name: postgres
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

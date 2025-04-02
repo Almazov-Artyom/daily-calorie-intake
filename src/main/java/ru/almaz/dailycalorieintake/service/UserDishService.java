@@ -52,21 +52,26 @@ public class UserDishService {
 
         List<Dish> dishes = dishRepository.findAllById(request.getDishesId());
 
-        Set<Long> foundIds = dishes.stream().map(Dish::getId).collect(Collectors.toSet());
+        List<Long> foundIds = dishes.stream()
+                .map(Dish::getId)
+                .toList();
 
         List<Long> notFoundIds = request.getDishesId()
                 .stream()
                 .filter(id -> !foundIds.contains(id))
                 .toList();
+
         if (!notFoundIds.isEmpty()) {
             throw new DishNotFoundException("Блюдо с id: " + notFoundIds + " не найдено");
-
         }
 
-        List<UserDish> userDishes = dishes.stream()
-                .map(dish -> UserDish.builder()
+        Map<Long, Dish> dishMap = dishes.stream()
+                .collect(Collectors.toMap(Dish::getId, dish -> dish));
+
+        List<UserDish> userDishes = request.getDishesId().stream()
+                .map(id -> UserDish.builder()
                         .user(user)
-                        .dish(dish)
+                        .dish(dishMap.get(id))
                         .date(request.getDate() != null ? request.getDate() : LocalDate.now())
                         .build()
                 )

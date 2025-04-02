@@ -19,17 +19,17 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/update-height")
-    public UserInfo updateEmail(@RequestBody @Valid UpdateHeightRequest request) {
+    public UserInfo updateHeight(@RequestBody @Valid UpdateHeightRequest request) {
         return userService.updateHeight(request);
     }
 
     @PostMapping("/update-weight")
-    public UserInfo updateEmail(@RequestBody @Valid UpdateWeightRequest request) {
+    public UserInfo updateWeight(@RequestBody @Valid UpdateWeightRequest request) {
         return userService.updateWeight(request);
     }
 
     @PostMapping("/update-age")
-    public UserInfo updateEmail(@RequestBody @Valid UpdateAgeRequest request) {
+    public UserInfo updateAge(@RequestBody @Valid UpdateAgeRequest request) {
         return userService.updateAge(request);
     }
 }
