@@ -30,4 +30,13 @@ public class JwtCacheService {
             refreshTokenCache.put(username, refreshToken);
         }
     }
+
+    public String getAccessToken(String username) {
+        Cache accessTokenCache = cacheManager.getCache(accessTokenCacheName);
+        String accessToken = null;
+        if (accessTokenCache != null) {
+            accessToken = accessTokenCache.get(username, String.class);
+        }
+        return accessToken;
+    }
 }
