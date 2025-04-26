@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtCacheService {
-
+    @CachePut(value = "${cache.access-token.name}",key = "#username")
+    public String putAccessToken(String accessToken, String username) {
+        return accessToken;
+    }
 }
