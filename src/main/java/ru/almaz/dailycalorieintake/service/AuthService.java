@@ -28,6 +28,8 @@ public class AuthService {
 
     private final UserMapper userMapper;
 
+    private final JwtCacheService jwtCacheService;
+
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
         try {
             Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
@@ -59,6 +61,7 @@ public class AuthService {
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = jwtService.generateRefreshToken(user);
+            jwtCacheService.putAccessToken(user.getUsername(), accessToken);
             return new LoginResponse(accessToken, refreshToken);
         } catch (AuthenticationException ex) {
             throw new UserUnauthenticatedException("Пользователь не аутентифицирован");
