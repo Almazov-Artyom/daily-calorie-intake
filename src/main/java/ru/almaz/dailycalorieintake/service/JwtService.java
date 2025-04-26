@@ -22,11 +22,11 @@ public class JwtService {
     @Value("${spring.jwt.secret}")
     private String secret;
 
-    @Value("${spring.access.jwt.lifetime}")
-    private Duration lifetimeAccessToken;
+    @Value("${spring.access.jwt.ttl}")
+    private Duration accessTokenTtl;
 
-    @Value("${spring.refresh.jwt.lifetime}")
-    private Duration lifetimeRefreshToken;
+    @Value("${spring.refresh.jwt.ttl}")
+    private Duration refreshTokenTtl;
 
 
     private SecretKey getSigningKey() {
@@ -74,11 +74,11 @@ public class JwtService {
     }
 
     public String generateAccessToken(UserDetails userDetails) {
-        return generateToken(userDetails, lifetimeAccessToken);
+        return generateToken(userDetails, accessTokenTtl);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
-        return generateToken(userDetails, lifetimeRefreshToken);
+        return generateToken(userDetails, refreshTokenTtl);
     }
 
     public String extractUserName(String token) {
