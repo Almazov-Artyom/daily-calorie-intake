@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.almaz.dailycalorieintake.entity.User;
-import ru.almaz.dailycalorieintake.exception.InvalidTokenException;
+import ru.almaz.dailycalorieintake.exception.InvalidAccessTokenException;
 
 import javax.crypto.SecretKey;
 import java.time.Duration;
@@ -61,7 +61,7 @@ public class JwtService {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-            throw new InvalidTokenException("Невалидный токен");
+            throw new InvalidAccessTokenException("Невалидный токен");
         }
     }
 

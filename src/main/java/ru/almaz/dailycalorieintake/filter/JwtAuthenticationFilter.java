@@ -10,9 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.almaz.dailycalorieintake.exception.InvalidTokenException;
+import ru.almaz.dailycalorieintake.exception.InvalidAccessTokenException;
 import ru.almaz.dailycalorieintake.service.JwtService;
-import ru.almaz.dailycalorieintake.service.UserService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -46,10 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } else
-                throw new InvalidTokenException("Невалидный токен");
+                throw new InvalidAccessTokenException("Невалидный токен");
 
             filterChain.doFilter(request, response);
-        } catch (InvalidTokenException e) {
+        } catch (InvalidAccessTokenException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

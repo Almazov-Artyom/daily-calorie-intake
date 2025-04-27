@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             UserUnauthenticatedException.class,
-            InvalidTokenException.class,
+            InvalidAccessTokenException.class,
             InvalidRefreshTokenException.class
     })
     public ProblemDetail handleUserUnauthenticatedException(RuntimeException e) {

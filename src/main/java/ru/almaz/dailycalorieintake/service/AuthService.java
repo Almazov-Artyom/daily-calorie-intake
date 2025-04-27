@@ -59,10 +59,13 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
             );
             User user = (User) authentication.getPrincipal();
+
             String accessToken = jwtService.generateAccessToken(user);
             String refreshToken = jwtService.generateRefreshToken(user);
+
             jwtCacheService.putAccessToken(user.getUsername(), accessToken);
             jwtCacheService.putRefreshToken(user.getUsername(), refreshToken);
+
             return new LoginResponse(accessToken, refreshToken);
         } catch (AuthenticationException ex) {
             throw new UserUnauthenticatedException("Пользователь не аутентифицирован");
