@@ -14,6 +14,7 @@ import ru.almaz.dailycalorieintake.enums.Gender;
 import ru.almaz.dailycalorieintake.enums.Purpose;
 import ru.almaz.dailycalorieintake.exception.*;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
+import ru.almaz.dailycalorieintake.validator.JwtValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,8 @@ public class AuthService {
     private final UserMapper userMapper;
 
     private final JwtCacheService jwtCacheService;
+
+    private final JwtValidator jwtValidator;
 
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
         try {
@@ -76,17 +79,16 @@ public class AuthService {
         String refreshToken = refreshTokenRequest.getRefreshToken();
         String userName = jwtService.extractUserName(refreshToken);
 
+        jwtValidator.refreshTokenValid(userName, refreshToken);
+
         UserDetails userDetails = userService.getUserByUsername(userName);
-        String accessToken;
-        if (jwtService.isTokenValid(refreshToken)) {
-            accessToken = jwtService.generateAccessToken(userDetails);
-        } else {
-            throw new InvalidRefreshTokenException("Невалидный refresh токен");
-        }
+
+        String newAccessToken = jwtService.generateAccessToken(userDetails);
+        String newRefreshToken = jwtService.generateRefreshToken(userDetails);
 
         return RefreshTokenResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
                 .build();
     }
 
