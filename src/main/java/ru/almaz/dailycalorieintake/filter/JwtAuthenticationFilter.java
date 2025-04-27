@@ -12,17 +12,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.almaz.dailycalorieintake.exception.InvalidAccessTokenException;
 import ru.almaz.dailycalorieintake.service.JwtService;
+import ru.almaz.dailycalorieintake.validator.JwtValidator;
 
 import java.io.IOException;
 import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
-
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
+
     private final JwtService jwtService;
+
+    private final JwtValidator jwtValidator;
 
     @Override
     protected void doFilterInternal(
@@ -39,13 +42,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authHeader.substring(BEARER_PREFIX.length());
         try {
             String userName = jwtService.extractUserName(token);
-            if (jwtService.isTokenValid(token)) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userName, null, Collections.emptyList()
-                );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else
-                throw new InvalidAccessTokenException("Невалидный токен");
+            jwtValidator.accessTokenValid(userName, token);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userName, null, Collections.emptyList()
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);
         } catch (InvalidAccessTokenException e) {

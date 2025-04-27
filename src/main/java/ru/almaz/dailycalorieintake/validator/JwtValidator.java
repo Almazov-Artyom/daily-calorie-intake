@@ -1,4 +1,4 @@
-package validator;
+package ru.almaz.dailycalorieintake.validator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
