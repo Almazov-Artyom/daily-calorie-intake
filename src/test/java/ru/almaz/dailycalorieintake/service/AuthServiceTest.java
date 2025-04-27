@@ -21,6 +21,7 @@ import ru.almaz.dailycalorieintake.exception.InvalidRefreshTokenException;
 import ru.almaz.dailycalorieintake.exception.UserUnauthenticatedException;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.repository.UserRepository;
+import ru.almaz.dailycalorieintake.validator.JwtValidator;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -41,6 +42,12 @@ class AuthServiceTest {
 
     @Mock
     private UserMapper userMapper;
+
+    @Mock
+    private JwtValidator jwtValidator;
+
+    @Mock
+    private JwtCacheService jwtCacheService;
 
     @InjectMocks
     private AuthService authService;
@@ -124,13 +131,14 @@ class AuthServiceTest {
 
         when(jwtService.extractUserName(refreshTokenRequest.getRefreshToken())).thenReturn("testUsername");
         when(userService.getUserByUsername("testUsername")).thenReturn(user);
-        when(jwtService.isTokenValid(refreshTokenRequest.getRefreshToken())).thenReturn(true);
+
         when(jwtService.generateAccessToken(user)).thenReturn("accessToken");
+        when(jwtService.generateRefreshToken(user)).thenReturn("refreshToken");
 
         RefreshTokenResponse response = authService.refreshToken(refreshTokenRequest);
 
         assertEquals("accessToken", response.getAccessToken());
-        assertEquals("validRefreshToken", response.getRefreshToken());
+        assertEquals("refreshToken", response.getRefreshToken());
     }
 
     @Test
@@ -138,12 +146,9 @@ class AuthServiceTest {
         RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest();
         refreshTokenRequest.setRefreshToken("invalidRefreshToken");
 
-        User user = new User();
-
         when(jwtService.extractUserName(refreshTokenRequest.getRefreshToken())).thenReturn("testUsername");
-        when(userService.getUserByUsername("testUsername")).thenReturn(user);
-        when(jwtService.isTokenValid(refreshTokenRequest.getRefreshToken())).thenReturn(false);
-
+        doThrow(InvalidRefreshTokenException.class).when(jwtValidator).refreshTokenValid("testUsername",
+                refreshTokenRequest.getRefreshToken());
         assertThrows(InvalidRefreshTokenException.class,()->authService.refreshToken(refreshTokenRequest));
     }
 }
