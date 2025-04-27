@@ -65,14 +65,6 @@ public class JwtService {
         }
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaims(token, Claims::getExpiration);
-    }
-
     public String generateAccessToken(UserDetails userDetails) {
         return generateToken(userDetails, accessTokenTtl);
     }
@@ -85,7 +77,4 @@ public class JwtService {
         return extractClaims(token, Claims::getSubject);
     }
 
-    public boolean isTokenValid(String token) {
-        return !isTokenExpired(token);
-    }
 }
