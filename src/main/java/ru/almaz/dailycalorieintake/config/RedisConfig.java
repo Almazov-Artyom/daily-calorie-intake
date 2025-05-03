@@ -20,11 +20,17 @@ public class RedisConfig {
     @Value("${cache.refresh-token.name}")
     private String refreshTokenCacheName;
 
+    @Value("${cache.verification-cache.name}")
+    private String verificationCacheName;
+
     @Value("${spring.access.jwt.ttl}")
     private Duration accessTokenTtl;
 
     @Value("${spring.refresh.jwt.ttl}")
     private Duration refreshTokenTtl;
+
+    @Value("${cache.verification-cache.ttl}")
+    private Duration verificationCacheTtl;
 
     @Bean
     public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
@@ -40,6 +46,12 @@ public class RedisConfig {
                         RedisCacheConfiguration
                                 .defaultCacheConfig()
                                 .entryTtl(refreshTokenTtl)
+                )
+                .withCacheConfiguration(
+                        verificationCacheName,
+                        RedisCacheConfiguration
+                                .defaultCacheConfig()
+                                .entryTtl(verificationCacheTtl)
                 )
                 .build();
     }
