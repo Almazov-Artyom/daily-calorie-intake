@@ -2,10 +2,7 @@ package ru.almaz.dailycalorieintake.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.almaz.dailycalorieintake.dto.*;
 import ru.almaz.dailycalorieintake.service.AuthService;
 
@@ -28,5 +25,10 @@ public class AuthController {
     @PostMapping("/refresh")
     public RefreshTokenResponse refreshToken(@RequestBody @Valid RefreshTokenRequest refreshTokenRequest) {
         return authService.refreshToken(refreshTokenRequest);
+    }
+
+    @PostMapping("/verify/{uuid}")
+    public VerificationDTO verify(@PathVariable String uuid) {
+        return authService.verifyEmail(uuid);
     }
 }
