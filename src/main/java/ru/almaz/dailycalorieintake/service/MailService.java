@@ -24,4 +24,10 @@ public class MailService {
         sendMessage(userEmail, subject, text);
     }
 
+    public void sendSuccessRegistrationMessage(String userEmail, String username) {
+        String subject = "Успешная регистрация";
+        String text = "Вы зарегистрировались под именем: " + username;
+        sendMessage(userEmail, subject, text);
+    }
+
 }
