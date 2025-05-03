@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
             InvalidPurposeException.class,
             InvalidGenderException.class,
             DishAlreadyExist.class,
-            DishNotFoundException.class
+            DishNotFoundException.class,
+            VerifyEmailException.class,
     })
     public ProblemDetail handleUserAlreadyExistException(RuntimeException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());

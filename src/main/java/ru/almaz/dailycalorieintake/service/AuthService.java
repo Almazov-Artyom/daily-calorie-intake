@@ -33,6 +33,8 @@ public class AuthService {
 
     private final JwtValidator jwtValidator;
 
+    private final VerificationCacheService verificationCacheService;
+
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
         try {
             Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
@@ -54,6 +56,18 @@ public class AuthService {
         userService.createUser(user);
 
         return new RegistrationResponse(user.getUsername());
+    }
+
+    public VerificationDTO verifyEmail(String uuid){
+        User user = verificationCacheService.getUser(uuid);
+
+        if (user == null) {
+            throw new VerifyEmailException("Email не подтвержден");
+        }
+
+        userService.createUser(user);
+
+        return new VerificationDTO("Вы успешно подвердили свой email");
     }
 
     public LoginResponse login(LoginRequest loginRequest) {

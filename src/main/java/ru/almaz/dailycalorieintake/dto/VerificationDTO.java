@@ -1,8 +1,9 @@
 package ru.almaz.dailycalorieintake.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+@AllArgsConstructor
 public class VerificationDTO {
     private String message;
 }
