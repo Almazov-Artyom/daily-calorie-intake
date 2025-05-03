@@ -28,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify/{uuid}")
-    public VerificationDTO verify(@PathVariable String uuid) {
+    public VerificationDTO verifyEmail(@PathVariable String uuid) {
         return authService.verifyEmail(uuid);
     }
 }
