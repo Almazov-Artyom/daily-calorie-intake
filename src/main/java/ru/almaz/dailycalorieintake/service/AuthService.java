@@ -16,6 +16,8 @@ import ru.almaz.dailycalorieintake.exception.*;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.validator.JwtValidator;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -35,6 +37,8 @@ public class AuthService {
 
     private final VerificationCacheService verificationCacheService;
 
+    private final MailService mailService;
+
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
         try {
             Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
@@ -50,12 +54,15 @@ public class AuthService {
         }
 
         User user = userMapper.toUser(registrationRequest);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userService.createUser(user);
+        String uuid = UUID.randomUUID().toString();
 
-        return new RegistrationResponse(user.getUsername());
+        verificationCacheService.putUser(uuid, user);
+
+        mailService.sendVerifyLink(user.getEmail(), uuid);
+
+        return new RegistrationResponse("Вам на почту выслана ссылка для подтверждения email");
     }
 
     public VerificationDTO verifyEmail(String uuid){
