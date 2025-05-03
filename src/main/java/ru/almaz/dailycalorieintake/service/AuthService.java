@@ -67,6 +67,8 @@ public class AuthService {
 
         userService.createUser(user);
 
+        verificationCacheService.removeUser(uuid);
+
         return new VerificationDTO("Вы успешно подвердили свой email");
     }
 
