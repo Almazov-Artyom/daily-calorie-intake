@@ -17,6 +17,7 @@ import ru.almaz.dailycalorieintake.exception.UserAlreadyExistException;
 import ru.almaz.dailycalorieintake.exception.UserNotFoundException;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.repository.UserRepository;
+import ru.almaz.dailycalorieintake.validator.UserValidator;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+
+    private final UserValidator userValidator;
 
     private void formulaHarisBenedict(User user) {
         Double dailyNorm = 0.0;
@@ -42,12 +45,7 @@ public class UserService {
 
     @Transactional
     public void createUser(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserAlreadyExistException("Пользователь с таким именем уже существует");
-        }
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistException("Пользователь с таким email уже существует");
-        }
+        userValidator.validateUser(user);
         formulaHarisBenedict(user);
         save(user);
     }
