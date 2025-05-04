@@ -27,8 +27,8 @@ public class AuthController {
         return authService.refreshToken(refreshTokenRequest);
     }
 
-    @PostMapping("/verify")
-    public VerificationDTO verifyEmail(@RequestParam String uuid) {
+    @GetMapping("/verify/{uuid}")
+    public VerificationDTO verifyEmail(@PathVariable String uuid) {
         return authService.verifyEmail(uuid);
     }
 }
