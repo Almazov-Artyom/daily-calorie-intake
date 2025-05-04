@@ -15,6 +15,7 @@ import ru.almaz.dailycalorieintake.enums.Purpose;
 import ru.almaz.dailycalorieintake.exception.*;
 import ru.almaz.dailycalorieintake.mapper.UserMapper;
 import ru.almaz.dailycalorieintake.validator.JwtValidator;
+import ru.almaz.dailycalorieintake.validator.UserValidator;
 
 import java.util.UUID;
 
@@ -39,7 +40,12 @@ public class AuthService {
 
     private final MailService mailService;
 
+    private final UserValidator userValidator;
+
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
+        User user = userMapper.toUser(registrationRequest);
+        userValidator.validateUser(user);
+
         try {
             Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
             registrationRequest.setPurpose(registrationRequest.getPurpose().toUpperCase());
@@ -53,7 +59,6 @@ public class AuthService {
             throw new InvalidGenderException("Неправильное значение пола");
         }
 
-        User user = userMapper.toUser(registrationRequest);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         String uuid = UUID.randomUUID().toString();

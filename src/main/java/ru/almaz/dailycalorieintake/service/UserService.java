@@ -26,8 +26,6 @@ public class UserService {
 
     private final UserMapper userMapper;
 
-    private final UserValidator userValidator;
-
     private void formulaHarisBenedict(User user) {
         Double dailyNorm = 0.0;
         if (user.getGender() == Gender.MALE)
@@ -45,7 +43,6 @@ public class UserService {
 
     @Transactional
     public void createUser(User user) {
-        userValidator.validateUser(user);
         formulaHarisBenedict(user);
         save(user);
     }
