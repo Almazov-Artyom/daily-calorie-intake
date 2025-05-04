@@ -43,21 +43,14 @@ public class AuthService {
     private final UserValidator userValidator;
 
     public RegistrationResponse registration(RegistrationRequest registrationRequest) {
-        User user = userMapper.toUser(registrationRequest);
-        userValidator.validateUser(user);
+        userValidator.validateUser(registrationRequest.getUsername(), registrationRequest.getEmail());
+        userValidator.validatePurpose(registrationRequest.getPurpose());
+        userValidator.validateGender(registrationRequest.getGender());
 
-        try {
-            Purpose.valueOf(registrationRequest.getPurpose().toUpperCase());
-            registrationRequest.setPurpose(registrationRequest.getPurpose().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidPurposeException("Неправильное значение цели");
-        }
-        try {
-            Gender.valueOf(registrationRequest.getGender().toUpperCase());
-            registrationRequest.setGender(registrationRequest.getGender().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new InvalidGenderException("Неправильное значение пола");
-        }
+        registrationRequest.setPurpose(registrationRequest.getPurpose().toUpperCase());
+        registrationRequest.setGender(registrationRequest.getGender().toUpperCase());
+
+        User user = userMapper.toUser(registrationRequest);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
